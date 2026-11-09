@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#12213a">
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="微观经济学题库">
+<title>微观经济学题库 · 经济与金融专业（考研）</title>
+<style>
+  :root{
+    --paper:#f5f0e6;
+    --card:#ffffff;
+    --ink:#1b2738;
+    --ink-2:#46566d;
+    --muted:#8c98a8;
+    --line:#e9e1d1;
+    --gold:#b1813a;
+    --accent:#2e5c8a;
+    --ok:#2f8f6a;
+    --bad:#c0453f;
+    --warn:#c08a2e;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    color:var(--ink);
+    background:
+      radial-gradient(1100px 520px at 8% -8%, #fdfaf3 0%, transparent 60%),
+      radial-gradient(900px 480px at 100% 0%, #edf2f8 0%, transparent 55%),
+      var(--paper);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
+  }
+  button, .tab, .opt, .nav-btn{
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .serif{font-family:"Songti SC","Noto Serif SC","Source Han Serif SC","SimSun",serif;}
+
+  /* ============ 头部 ============ */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#12213a 0%,#1b3253 55%,#24446b 100%);
+    color:#fff;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(700px 340px at 82% 18%, rgba(214,178,110,.20), transparent 70%),
+      radial-gradient(520px 280px at 6% 110%, rgba(96,150,210,.22), transparent 72%);
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-90px;top:-90px;
+    width:320px;height:320px;
+    border:1px solid rgba(214,178,110,.28);
+    border-radius:50%;
+  }
+  .hero-inner{
+    position:relative;
+    max-width:1000px;
+    margin:0 auto;
+    padding:52px 32px 46px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:.34em;
+    color:#d6b26e;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    margin:0;
+    font-size:40px;
+    font-weight:700;
+    letter-spacing:.04em;
+    font-family:"Songti SC","Noto Serif SC","Source Han Serif SC","SimSun",serif;
+  }
+  .hero h1 span{color:#d6b26e;}
+  .hero-sub{
+    margin:14px 0 0;
+    color:rgba(255,255,255,.78);
+    font-size:15px;
+    letter-spacing:.06em;
+  }
+  .hero-stats{
+    display:flex;
+    gap:36px;
+    margin-top:30px;
+    flex-wrap:wrap;
+  }
+  .stat b{
+    display:block;
+    font-size:22px;
+    color:#fff;
+    font-family:"Songti SC","SimSun",serif;
+    letter-spacing:.02em;
+  }
+  .stat span{font-size:12px;color:rgba(255,255,255,.6);letter-spacing:.12em;}
+  .stat + .stat{padding-left:36px;border-left:1px solid rgba(255,255,255,.16);}
+
+  /* ============ 主体 ============ */
+  .wrap{max-width:1000px;margin:0 auto;padding:26px 24px 70px;}
+
+  .tabs{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .tab{
+    appearance:none;
+    border:1px solid var(--line);
+    background:rgba(255,255,255,.72);
+    border-radius:12px;
+    padding:14px 16px;
+    text-align:left;
+    cursor:pointer;
+    font-family:inherit;
+    color:var(--ink-2);
+    transition:.18s;
+  }
+  .tab:hover{border-color:#d9c79f;transform:translateY(-1px);}
+  .tab .t-name{
+    display:block;
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+    font-family:"Songti SC","SimSun",serif;
+    letter-spacing:.06em;
+  }
+  .tab .t-topic{
+    display:block;
+    margin-top:3px;
+    font-size:11.5px;
+    color:var(--muted);
+    letter-spacing:.02em;
+  }
+  .tab .t-score{
+    float:right;
+    font-size:12px;
+    color:var(--gold);
+    font-weight:700;
+  }
+  .tab.active{
+    background:#fff;
+    border-color:#c9a86a;
+    box-shadow:0 6px 20px rgba(27,39,56,.10);
+  }
+  .tab.active .t-name{color:var(--accent);}
+
+  /* 工具条 */
+  .toolbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    align-items:center;
+    gap:18px;
+    background:rgba(250,247,241,.92);
+    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:blur(10px);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:12px 18px;
+    margin-bottom:14px;
+    box-shadow:0 4px 16px rgba(27,39,56,.05);
+  }
+  .progress-box{flex:1;min-width:0;}
+  .progress-text{
+    display:flex;
+    justify-content:space-between;
+    font-size:12.5px;
+    color:var(--muted);
+    margin-bottom:5px;
+    letter-spacing:.04em;
+  }
+  .progress-text b{color:var(--ink-2);}
+  .bar{height:6px;border-radius:999px;background:#eae3d4;overflow:hidden;}
+  .bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#c9a86a,#b1813a);transition:width .3s;}
+  .score-chip{
+    flex:none;
+    font-size:12.5px;
+    color:var(--muted);
+    border-left:1px solid var(--line);
+    padding-left:18px;
+    letter-spacing:.03em;
+  }
+  .score-chip b{
+    font-family:"Songti SC","SimSun",serif;
+    font-size:22px;
+    color:var(--accent);
+    margin-right:2px;
+  }
+  .score-chip b.pass{color:var(--ok);}
+  .score-chip b.fail{color:var(--bad);}
+
+  /* 题号导航 */
+  .nav-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    padding:14px 16px;
+    background:#fffdf8;
+    border:1px dashed #ddd0b4;
+    border-radius:12px;
+    margin-bottom:18px;
+  }
+  .nav-hint{
+    font-size:12px;
+    color:var(--muted);
+    width:100%;
+    margin-bottom:2px;
+    letter-spacing:.04em;
+  }
+  .nav-btn{
+    width:34px;height:34px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:#fff;
+    color:var(--ink-2);
+    font-size:13px;
+    cursor:pointer;
+    transition:.15s;
+    font-family:inherit;
+  }
+  .nav-btn:hover{border-color:var(--gold);}
+  .nav-btn.answered{background:#f6edd9;border-color:#dcc79a;color:#8a6520;}
+  .nav-btn.correct{background:#e9f6ef;border-color:#9fd2b9;color:#1f7a58;}
+  .nav-btn.wrong{background:#fbeceb;border-color:#e5b6b2;color:#b4453f;}
+  .nav-btn.partial{background:#fdf3e0;border-color:#e7c98d;color:#9a6a15;}
+  .nav-btn.pending{background:#f2f4f7;border-color:#cfd8e3;color:#7d8b9e;border-style:dashed;}
+
+  /* 成绩横幅 */
+  .banner{
+    display:none;
+    margin-bottom:18px;
+    border-radius:14px;
+    padding:22px 26px;
+    background:linear-gradient(120deg,#14243c,#26456c);
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+  }
+  .banner.show{display:block;animation:fadeUp .4s ease;}
+  .banner::after{
+    content:"";
+    position:absolute;right:-40px;bottom:-70px;
+    width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(214,178,110,.28),transparent 68%);
+  }
+  .banner-top{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;}
+  .banner-score{
+    font-family:"Songti SC","SimSun",serif;
+    font-size:44px;line-height:1;
+    color:#e5c98f;
+  }
+  .banner-score small{font-size:15px;color:rgba(255,255,255,.6);}
+  .banner-level{
+    font-size:13px;letter-spacing:.14em;
+    padding:4px 12px;border:1px solid rgba(229,201,143,.5);
+    border-radius:999px;color:#e5c98f;
+    margin-bottom:6px;
+  }
+  .banner-detail{
+    margin-top:14px;font-size:13px;color:rgba(255,255,255,.75);
+    line-height:1.9;
+  }
+  .banner-detail b{color:#fff;}
+
+  /* ============ 题目卡 ============ */
+  .q-card{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 26px 20px;
+    margin-bottom:16px;
+    box-shadow:0 2px 14px rgba(27,39,56,.045);
+    scroll-margin-top:90px;
+  }
+  .q-card::before{
+    content:"";
+    position:absolute;left:0;top:20px;bottom:20px;width:3px;
+    border-radius:0 3px 3px 0;background:var(--accent);
+  }
+  .q-card[data-type="multi"]::before{background:#6b5bb5;}
+  .q-card[data-type="judge"]::before{background:#3f947f;}
+  .q-card[data-type="calc"]::before{background:#c2853a;}
+  .q-card[data-type="essay"]::before{background:#b3546b;}
+  .q-card.flash{animation:flash 1s ease;}
+  @keyframes flash{0%,100%{box-shadow:0 2px 14px rgba(27,39,56,.045);}35%{box-shadow:0 0 0 3px rgba(201,168,106,.45);}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+  .q-head{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-bottom:12px;
+  }
+  .q-no{
+    width:32px;height:32px;border-radius:50%;
+    background:#f3efe5;color:#8a6520;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;
+    font-family:"Songti SC","SimSun",serif;
+    flex:none;
+  }
+  .badge{
+    font-size:11.5px;letter-spacing:.08em;
+    padding:3px 9px;border-radius:5px;
+    background:#eef3fa;color:#3d6ea8;
+  }
+  .badge.multi{background:#f0ecfa;color:#6b5bb5;}
+  .badge.judge{background:#e9f6f1;color:#2f8f6a;}
+  .badge.calc{background:#fcf1e3;color:#b4792c;}
+  .badge.essay{background:#fceef1;color:#b3546b;}
+  .q-points{
+    margin-left:auto;
+    font-size:12px;color:var(--muted);letter-spacing:.04em;
+  }
+  .q-points b{color:var(--ink-2);}
+  .q-gain{
+    font-size:12px;font-weight:700;padding:2px 8px;border-radius:5px;
+    background:#e9f6ef;color:#2f8f6a;
+  }
+  .q-gain.zero{background:#fbeceb;color:var(--bad);}
+  .q-gain.half{background:#fdf3e0;color:var(--warn);}
+
+  .q-stem{
+    font-size:15.5px;
+    color:#233246;
+    margin-bottom:14px;
+    line-height:1.85;
+  }
+  .q-sub{
+    display:block;margin-top:8px;font-size:13px;color:var(--muted);
+  }
+
+  /* 选项 */
+  .options{display:flex;flex-direction:column;gap:8px;}
+  .opt{
+    display:flex;align-items:flex-start;gap:11px;
+    padding:10px 14px;
+    border:1px solid #ebe4d5;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.16s;
+    background:#fff;
+  }
+  .opt:hover{border-color:#d9c79f;background:#fdfbf6;}
+  .opt input{
+    position:absolute;opacity:0;width:0;height:0;
+  }
+  .opt-key{
+    flex:none;
+    width:24px;height:24px;border-radius:50%;
+    background:#f4efe4;color:#8a7346;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700;
+    margin-top:2px;
+    transition:.16s;
+  }
+  .opt-text{font-size:14.5px;color:#2b3a4d;line-height:1.7;}
+  .opt.chosen{border-color:var(--accent);background:#f3f8fd;box-shadow:0 0 0 2px rgba(46,92,138,.07);}
+  .opt.chosen .opt-key{background:var(--accent);color:#fff;}
+  .opt.correct{border-color:#4aa886;background:#eef8f3;}
+  .opt.correct .opt-key{background:var(--ok);color:#fff;}
+  .opt.wrong{border-color:#dc9a96;background:#fdf0ef;}
+  .opt.wrong .opt-key{background:var(--bad);color:#fff;}
+  .options.judge{flex-direction:row;gap:12px;}
+  .options.judge .opt{flex:1;justify-content:center;padding:12px;}
+
+  /* 解析 */
+  .feedback{
+    display:none;
+    margin-top:14px;
+    padding:14px 16px;
+    border-radius:10px;
+    background:#f8f4ea;
+    border-left:3px solid var(--gold);
+    font-size:13.5px;
+    color:#4b5768;
+    line-height:1.85;
+  }
+  .feedback.show{display:block;animation:fadeUp .3s ease;}
+  .feedback .fb-row{margin-bottom:6px;}
+  .feedback .fb-row:last-child{margin-bottom:0;}
+  .fb-label{
+    display:inline-block;
+    font-size:11px;letter-spacing:.1em;
+    color:#a4762f;
+    margin-right:8px;
+  }
+  .fb-label::before{content:"▍";color:#c9a86a;}
+  .fb-answer{font-weight:700;color:#1f7a58;}
+  .fb-answer.bad{color:var(--bad);}
+
+  /* 主观/计算 */
+  .written{margin-top:4px;}
+  .written textarea{
+    width:100%;
+    min-height:96px;
+    padding:12px 14px;
+    border:1px solid #e7ded0;
+    border-radius:10px;
+    background:#fdfcf9;
+    font-family:inherit;
+    font-size:14px;
+    line-height:1.75;
+    color:#2b3a4d;
+    resize:vertical;
+    outline:none;
+    transition:.15s;
+  }
+  .written textarea:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(46,92,138,.08);}
+  .written textarea::placeholder{color:#b0b8c4;}
+  .written-tools{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .btn-ghost{
+    appearance:none;cursor:pointer;
+    border:1px solid #d9c79f;
+    background:#fdfaf2;color:#8a6520;
+    font-family:inherit;font-size:12.5px;
+    padding:6px 14px;border-radius:8px;
+    transition:.16s;letter-spacing:.03em;
+  }
+  .btn-ghost:hover{background:#f6edd9;}
+  .self-grade{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:12px;color:var(--muted);
+    margin-left:auto;
+  }
+  .sg-btn{
+    appearance:none;cursor:pointer;
+    border:1px solid #e5ddcf;background:#fff;
+    color:#6a7688;font-family:inherit;font-size:12px;
+    padding:5px 11px;border-radius:999px;transition:.15s;
+  }
+  .sg-btn:hover{border-color:#c9a86a;color:#8a6520;}
+  .sg-btn.active{background:#14243c;border-color:#14243c;color:#fff;}
+
+  .answer-box{
+    display:none;
+    margin-top:12px;
+    padding:16px 18px;
+    border-radius:10px;
+    background:#f7f2e6;
+    border-left:3px solid #c9a86a;
+    font-size:13.5px;
+    color:#425065;
+    line-height:1.95;
+  }
+  .answer-box.show{display:block;animation:fadeUp .3s ease;}
+  .answer-box b{color:#1b2738;}
+  .answer-box .ans-title{
+    display:inline-block;
+    font-size:11px;letter-spacing:.12em;
+    color:#a4762f;margin-bottom:6px;
+  }
+
+  /* 底部操作 */
+  .actions{
+    display:flex;gap:12px;flex-wrap:wrap;
+    margin-top:26px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+  }
+  .btn-primary{
+    appearance:none;cursor:pointer;
+    background:linear-gradient(135deg,#1b3253,#24446b);
+    color:#fff;border:none;
+    font-family:inherit;font-size:15px;letter-spacing:.08em;
+    padding:13px 34px;border-radius:10px;
+    box-shadow:0 8px 22px rgba(27,39,56,.18);
+    transition:.18s;
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(27,39,56,.24);}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none;}
+  .btn-secondary{
+    appearance:none;cursor:pointer;
+    background:#fff;border:1px solid var(--line);
+    color:var(--ink-2);font-family:inherit;font-size:14px;
+    padding:13px 26px;border-radius:10px;transition:.16s;
+  }
+  .btn-secondary:hover{border-color:#d9c79f;color:#8a6520;}
+
+  .note{
+    margin-top:34px;padding-top:22px;
+    border-top:1px dashed #ddd0b4;
+    font-size:12px;color:var(--muted);line-height:2;
+    letter-spacing:.02em;
+  }
+
+  @media (max-width:720px){
+    .hero-inner{padding:calc(36px + env(safe-area-inset-top)) 20px 32px;}
+    .hero h1{font-size:28px;}
+    .hero-stats{gap:16px;margin-top:22px;}
+    .stat + .stat{padding-left:16px;}
+    .tabs{grid-template-columns:repeat(2,1fr);}
+    .wrap{padding:18px 14px calc(50px + env(safe-area-inset-bottom));}
+    .q-card{padding:18px 18px 16px;}
+    .q-stem{font-size:14.5px;}
+    .toolbar{flex-wrap:wrap;gap:10px;padding:10px 14px;top:env(safe-area-inset-top);}
+    .score-chip{border-left:none;padding-left:0;}
+    .self-grade{margin-left:0;width:100%;}
+    .options.judge{flex-direction:column;}
+    .nav-btn{width:31px;height:31px;}
+    /* iOS 聚焦输入框时不自动放大页面 */
+    .written textarea{font-size:16px;}
+    .opt{padding:12px 14px;}
+    .tab{padding:12px 14px;}
+  }
+
+  @media print{
+    .hero{background:#fff;color:#000;}
+    .tabs,.toolbar,.nav-grid,.actions,.banner{display:none !important;}
+    .q-card{break-inside:avoid;box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Economics &amp; Finance · Freshman Review</div>
+    <h1>微观经济学 <span>题库</span></h1>
+    <p class="hero-sub">经济与金融专业 · 大一 · 考研方向 · 四轮闯关练习 · 选择 / 判断 / 计算 / 主观</p>
+    <div class="hero-stats">
+      <div class="stat"><b>4</b><span>练习轮次</span></div>
+      <div class="stat"><b>100</b><span>题目总数</span></div>
+      <div class="stat"><b>25</b><span>每轮题量</span></div>
+      <div class="stat"><b>100</b><span>每轮满分</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="tabs" id="tabs"></nav>
+
+  <div class="toolbar">
+    <div class="progress-box">
+      <div class="progress-text">
+        <span>本轮进度 <b id="progText">0 / 25</b></span>
+        <span id="progTip">未提交</span>
+      </div>
+      <div class="bar"><i id="progBar"></i></div>
+    </div>
+    <div class="score-chip">本轮得分 <b id="scoreNum">—</b><span>/100</span></div>
+  </div>
+
+  <div class="banner" id="banner"></div>
+
+  <div class="nav-grid" id="navGrid"></div>
+
+  <div id="questions"></div>
+
+  <div class="actions">
+    <button class="btn-primary" id="submitBtn">提交本轮</button>
+    <button class="btn-secondary" id="resetBtn">重置本轮</button>
+    <button class="btn-secondary" id="nextBtn">下一轮 →</button>
+  </div>
+
+  <div class="note">
+    说明：单选、多选、判断为自动判分；计算题与主观题提供参考答案与解析，提交后可对照自评。<br>
+    多选题计分规则：全部选对得满分，漏选（无错选）得一半分，错选得 0 分。<br>
+    练习进度自动保存在本机浏览器中，可随时关闭页面后继续。
+  </div>
+</main>
+
+<script>
+/* ============================================================
+   题库数据
+   ============================================================ */
+const L = ['A','B','C','D','E'];
+
+const QB = [
+/* ---------------------------- 第 1 轮 ---------------------------- */
+{
+  name:'第一轮',
+  topic:'供需均衡 · 弹性理论 · 消费者行为',
+  questions:[
+    {
+      type:'single', score:3,
+      stem:'其他条件不变时，下列哪种情况会导致商品 X 的需求曲线向右移动？（　）',
+      options:['替代品价格下降','替代品价格上升','互补品价格下降','消费者收入下降（X 为正常品）'],
+      answer:1,
+      explain:'替代品价格上升，消费者会减少对替代品的购买、增加对 X 的需求，X 的需求曲线右移。互补品价格下降也会使 X 需求增加，但选项中没有此条；收入下降使正常品需求左移。'
+    },
+    {
+      type:'single', score:3,
+      stem:'若某商品价格下降 10%，需求量增加 5%，则该商品需求价格弹性（绝对值）为（　）。',
+      options:['2，富有弹性','0.5，缺乏弹性','1，单位弹性','0.5，富有弹性'],
+      answer:1,
+      explain:'需求价格弹性 Ed = |需求量变动率 / 价格变动率| = 5% / 10% = 0.5，小于 1，属于缺乏弹性。'
+    },
+    {
+      type:'single', score:3,
+      stem:'两种商品的需求交叉价格弹性为正，说明它们是（　）。',
+      options:['互补品','替代品','独立品','低档品'],
+      answer:1,
+      explain:'交叉弹性 Exy = (ΔQx/Qx)/(ΔPy/Py)。Exy > 0 表示 Y 价格上升导致 X 需求量增加，二者可互相替代，故为替代品。'
+    },
+    {
+      type:'single', score:3,
+      stem:'基数效用论中，消费者实现效用最大化的均衡条件是（　）。',
+      options:['MUx = MUy','MUx/Px = MUy/Py = λ','Px = Py','TUx = TUy'],
+      answer:1,
+      explain:'消费者均衡条件是每单位货币购买各种商品所获得的边际效用相等，且等于货币的边际效用 λ，即 MUx/Px = MUy/Py = λ。'
+    },
+    {
+      type:'single', score:3,
+      stem:'无差异曲线斜率的绝对值等于（　）。',
+      options:['两种商品的价格之比','边际技术替代率','商品的边际替代率 MRS','边际产量之比'],
+      answer:2,
+      explain:'无差异曲线斜率为 -MRSxy，斜率绝对值即边际替代率 MRSxy = MUx/MUy，表示消费者愿用一单位 X 替代 Y 的数量。'
+    },
+    {
+      type:'single', score:3,
+      stem:'正常商品价格下降时，其收入效应与价格变动方向（　）。',
+      options:['相同','相反','无关','先相同后相反'],
+      answer:1,
+      explain:'正常商品的需求量与收入同向变化。价格下降使实际收入上升，从而需求量增加，即收入效应与价格反方向变动。'
+    },
+    {
+      type:'single', score:3,
+      stem:'吉芬商品的需求曲线（　）。',
+      options:['向右下方倾斜','向右上方倾斜','垂直','水平'],
+      answer:1,
+      explain:'吉芬商品是特殊的低档商品，收入效应（与价格同向）大于替代效应（与价格反向），总效应与价格同向，需求曲线向右上方倾斜。'
+    },
+    {
+      type:'single', score:3,
+      stem:'当边际效用为正时，总效用（　）。',
+      options:['递减','递增','不变','先增后减'],
+      answer:1,
+      explain:'总效用的增量即边际效用。边际效用为正，说明每增加一单位消费使总效用增加，故总效用递增；当边际效用为 0 时总效用最大。'
+    },
+    {
+      type:'single', score:3,
+      stem:'预算线斜率的绝对值等于（　）。',
+      options:['两种商品的边际效用之比','两种商品价格之比 Px/Py','收入与价格之比','边际替代率'],
+      answer:1,
+      explain:'预算线方程 Px·X + Py·Y = M，可化为 Y = M/Py − (Px/Py)X，斜率为 −Px/Py，绝对值即两商品价格之比。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'影响需求价格弹性大小的因素有（　）。',
+      options:['商品替代品的多少','商品用途的广泛性','商品在消费者支出中所占比重','消费者调节需求量的时间长短'],
+      answer:[0,1,2,3],
+      explain:'替代品越多、用途越广、支出占比越大、调节时间越长，需求价格弹性越大；反之则越小。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'关于正常商品价格变动的替代效应和收入效应，下列说法正确的有（　）。',
+      options:['替代效应与价格反方向变动','收入效应与价格反方向变动','总效应与价格反方向变动','需求曲线向右下方倾斜'],
+      answer:[0,1,2,3],
+      explain:'正常商品的替代效应和收入效应都与价格反方向变动，二者同向作用，总效应与价格反方向变动，故需求曲线向右下方倾斜。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'无差异曲线的特征包括（　）。',
+      options:['凸向原点','任意两条无差异曲线不相交','离原点越远代表的效用水平越高','斜率为负'],
+      answer:[0,1,2,3],
+      explain:'无差异曲线斜率为负（两种商品此消彼长）、凸向原点（MRS 递减）、同一坐标平面任意两条不相交、越远效用越高。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'关于消费者剩余，下列说法正确的有（　）。',
+      options:['是消费者愿意支付的价格与实际支付价格之间的差额','衡量消费者获得的净福利','商品价格下降时消费者剩余增加','是生产者获得的额外收益'],
+      answer:[0,1,2],
+      explain:'消费者剩余是买者愿意支付的最高价格与实际支付价格之差，反映消费者福利。价格下降、实际支付减少，消费者剩余增加。D 项属于生产者剩余概念。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'需求规律表明，在其他条件不变时，商品的需求量与价格呈反方向变动。',
+      answer:true,
+      explain:'正确。需求规律（需求定理）即需求量随价格上升而减少、随价格下降而增加，需求曲线向右下方倾斜（吉芬商品等除外）。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'若某商品需求价格弹性小于 1，则降价会使厂商销售收入增加。',
+      answer:false,
+      explain:'错误。需求缺乏弹性（Ed<1）时，价格下降的幅度大于需求量增加的幅度，销售收入 TR = P·Q 会减少；此时应涨价才能增收。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'边际效用递减规律是指随着消费量增加，总效用递减。',
+      answer:false,
+      explain:'错误。边际效用递减指每增加一单位商品消费所带来的效用增量递减；总效用在边际效用为正时仍递增，直到边际效用降为 0 时总效用达到最大。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'吉芬商品一定是低档商品，但低档商品不一定是吉芬商品。',
+      answer:true,
+      explain:'正确。吉芬商品是收入效应（与价格同向）大于替代效应（与价格反向）的低档商品，因此一定是低档商品；普通低档商品收入效应小于替代效应，总效应仍与价格反向，不是吉芬商品。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'消费者均衡点是预算线与无差异曲线的切点。',
+      answer:true,
+      explain:'正确。在该切点上 MRSxy = Px/Py，且满足预算约束，消费者实现既定收入下的效用最大化。'
+    },
+    {
+      type:'calc', score:5,
+      stem:'某商品需求函数 Qd = 50 − 5P，供给函数 Qs = −10 + 5P。',
+      sub:'（1）求均衡价格和均衡数量；（2）若政府规定最高限价 P = 4，求市场短缺量。',
+      answer:'<span class="ans-title">参考答案</span><br>（1）均衡时 Qd = Qs：50 − 5P = −10 + 5P → 10P = 60 → <b>P* = 6</b>，<b>Q* = 20</b><br>（2）限价 P = 4 时：Qd = 50 − 20 = 30，Qs = −10 + 20 = 10，短缺量 = 30 − 10 = <b>20</b><br><br><b>结论：</b>最高限价低于均衡价格时，需求量大于供给量，出现短缺。',
+      points:['均衡价格 P*=6','均衡数量 Q*=20','限价 P=4 时短缺 20']
+    },
+    {
+      type:'calc', score:5,
+      stem:'某商品需求函数为 P = 100 − Q。',
+      sub:'求 P = 40 时的需求价格点弹性（绝对值），并判断属于哪种弹性类型。',
+      answer:'<span class="ans-title">参考答案</span><br>P = 40 时，Q = 100 − 40 = 60。<br>由 P = 100 − Q 得 Q = 100 − P，故 dQ/dP = −1。<br>需求价格点弹性 Ed = |dQ/dP · P/Q| = |−1 × 40 / 60| = <b>2/3 ≈ 0.67</b><br>因 Ed < 1，故该商品在 P = 40 处属于<b>缺乏弹性</b>。',
+      points:['P=40 时 Q=60','Ed = 2/3 ≈ 0.67','属于缺乏弹性']
+    },
+    {
+      type:'calc', score:5,
+      stem:'消费者效用函数 U = XY，商品 X 价格 Px = 2，商品 Y 价格 Py = 3，收入 M = 120。',
+      sub:'求实现效用最大化时 X、Y 的消费量及最大效用。',
+      answer:'<span class="ans-title">参考答案</span><br>MUx = ∂U/∂X = Y，MUy = ∂U/∂Y = X。<br>均衡条件 MUx/Px = MUy/Py，即 Y/2 = X/3 → 3Y = 2X。<br>预算约束 2X + 3Y = 120，代入 2X = 3Y 得 3Y + 3Y = 120 → 6Y = 120 → <b>Y = 20</b>，<b>X = 30</b>。<br>最大效用 U = XY = 30 × 20 = <b>600</b>。',
+      points:['均衡条件 Y/2 = X/3','X=30，Y=20','最大效用 U=600']
+    },
+    {
+      type:'calc', score:5,
+      stem:'某商品需求函数 Q = 100 − 2P。',
+      sub:'（1）求 P = 20 时的需求价格弹性和销售收入；（2）若厂商希望增加销售收入，应涨价还是降价？为什么？',
+      answer:'<span class="ans-title">参考答案</span><br>（1）P = 20 时 Q = 100 − 40 = 60。<br>dQ/dP = −2，Ed = |dQ/dP · P/Q| = |−2 × 20 / 60| = <b>2/3 ≈ 0.67</b><br>销售收入 TR = P·Q = 20 × 60 = <b>1200</b>。<br>（2）因 Ed < 1（缺乏弹性），价格变动幅度大于需求量变动幅度，<b>涨价</b>会使 TR 增加。',
+      points:['Ed = 2/3 ≈ 0.67','TR = 1200','缺乏弹性应涨价']
+    },
+    {
+      type:'essay', score:9,
+      stem:'论述需求价格弹性的类型，并分析需求价格弹性与厂商销售收入之间的关系。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）需求价格弹性的类型（按绝对值大小）：</b>① Ed > 1，富有弹性，需求量变动幅度大于价格变动幅度；② Ed = 1，单位弹性；③ 0 < Ed < 1，缺乏弹性；④ Ed = 0，完全无弹性（需求曲线垂直）；⑤ Ed → ∞，完全弹性（需求曲线水平）。<br><b>（2）弹性与销售收入 TR = P·Q 的关系：</b>① Ed > 1 时，价格下降带来的需求量增加幅度更大，TR 增加，故应"薄利多销"；② Ed < 1 时，价格下降使 TR 减少，涨价使 TR 增加；③ Ed = 1 时，价格变动不影响 TR。<br><b>（3）政策含义：</b>厂商应根据产品弹性制定价格策略。生活必需品缺乏弹性，可适当提价；奢侈品富有弹性，可降价促销。',
+      points:['五种弹性类型','Ed>1 降价增收','Ed<1 涨价增收','Ed=1 收入不变','薄利多销与提价策略']
+    },
+    {
+      type:'essay', score:9,
+      stem:'用替代效应和收入效应分析正常商品、低档商品和吉芬商品的需求曲线形状。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）正常商品：</b>替代效应与价格反方向变动，收入效应也与价格反方向变动，二者同向，总效应与价格反方向，需求曲线向右下方倾斜。<br><b>（2）低档商品：</b>替代效应与价格反方向，收入效应与价格同方向（收入上升反而减少低档品消费），但收入效应绝对值小于替代效应，总效应仍与价格反方向，需求曲线仍向右下方倾斜，只是更陡峭。<br><b>（3）吉芬商品：</b>特殊低档商品，收入效应与价格同方向且其绝对值大于替代效应，使总效应与价格同方向变动，即价格上升需求量反而增加，需求曲线向右上方倾斜。<br><b>结论：</b>吉芬商品必须同时满足"低档"和"收入效应大于替代效应"两个条件，是需求规律的例外。',
+      points:['正常品两效应同向、曲线右下','低档品收入效应同向但较小、曲线右下','吉芬品收入效应大于替代效应、曲线右上','吉芬商品的两个条件']
+    },
+    {
+      type:'essay', score:9,
+      stem:'比较基数效用论与序数效用论，并说明二者如何得出相同的消费者均衡条件。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）区别：</b>①基数效用论认为效用可以用具体数值计量并加总，采用边际效用分析法；②序数效用论认为效用只能排序、不能计量，采用无差异曲线分析法。<br><b>（2）联系：</b>二者都以理性人假设、边际效用递减规律为基础，最终推导出一致的均衡条件。<br><b>（3）均衡条件推导：</b>基数效用论：消费者在既定收入下使总效用最大，须满足 MUx/Px = MUy/Py = λ；序数效用论：无差异曲线与预算线相切，MRSxy = Px/Py，而 MRSxy = MUx/MUy，故 MUx/MUy = Px/Py，即 MUx/Px = MUy/Py。<br><b>（4）结论：</b>两种理论形式不同、分析工具不同，但均衡条件本质一致，都说明消费者应使每单位货币在各种商品上获得的边际效用相等。',
+      points:['基数可计量、边际效用分析','序数只排序、无差异曲线分析','均衡条件 MUx/Px=MUy/Py','MRSxy=Px/Py 推导出同一条件']
+    }
+  ]
+},
+/* ---------------------------- 第 2 轮 ---------------------------- */
+{
+  name:'第二轮',
+  topic:'生产与成本 · 完全竞争 · 完全垄断',
+  questions:[
+    {
+      type:'single', score:3,
+      stem:'短期生产中，当边际产量为 0 时，总产量（　）。',
+      options:['达到最大','继续增加','开始减少','等于平均产量'],
+      answer:0,
+      explain:'边际产量是总产量的增量。当 MP = 0 时，总产量不再增加，达到最大值；MP < 0 后总产量递减。'
+    },
+    {
+      type:'single', score:3,
+      stem:'边际报酬递减规律发生作用的前提是（　）。',
+      options:['技术水平不断进步','技术水平不变且至少有一种生产要素固定','所有要素同比例变动','生产规模扩大'],
+      answer:1,
+      explain:'边际报酬递减规律（边际产量递减规律）的前提是技术水平不变，且至少有一种要素投入量固定，连续增加可变要素时边际产量最终递减。'
+    },
+    {
+      type:'single', score:3,
+      stem:'短期总成本 STC 等于（　）。',
+      options:['TFC + TVC','AFC + AVC','MC + AC','TFC × TVC'],
+      answer:0,
+      explain:'短期总成本 = 总固定成本 + 总可变成本，即 STC = TFC + TVC。'
+    },
+    {
+      type:'single', score:3,
+      stem:'边际成本 MC 曲线穿过平均成本 AC 曲线的（　）。',
+      options:['最高点','最低点','中点','任意点'],
+      answer:1,
+      explain:'当 MC < AC 时 AC 递减，当 MC > AC 时 AC 递增，故 MC 穿过 AC 的最低点；同理 MC 也穿过 AVC 的最低点。'
+    },
+    {
+      type:'single', score:3,
+      stem:'完全竞争厂商短期均衡的条件是（　）。',
+      options:['MR = AR','MR = SMC = P','P = AC','TR = TC'],
+      answer:1,
+      explain:'完全竞争厂商是价格接受者，P = MR = AR，短期利润最大化（或亏损最小化）条件为 MR = SMC，即 P = SMC。'
+    },
+    {
+      type:'single', score:3,
+      stem:'完全竞争厂商短期中，当市场价格 P < AVC 时，厂商应当（　）。',
+      options:['继续生产','停止营业','扩大产量','提高价格'],
+      answer:1,
+      explain:'当 P < AVC 时，厂商连可变成本都无法全部收回，继续生产亏损大于固定成本，应停止营业；P = AVC 为停止营业点。'
+    },
+    {
+      type:'single', score:3,
+      stem:'完全垄断厂商实现利润最大化的产量位于需求曲线（　）的区间。',
+      options:['缺乏弹性','富有弹性','单位弹性','完全无弹性'],
+      answer:1,
+      explain:'垄断厂商 MR = P(1 − 1/Ed)。利润最大化时 MR = MC ≥ 0，故 1 − 1/Ed ≥ 0，即 Ed ≥ 1，均衡点位于需求曲线富有弹性（或单位弹性）区间。'
+    },
+    {
+      type:'single', score:3,
+      stem:'完全垄断造成无谓损失（效率损失）的根本原因是（　）。',
+      options:['产量低于社会最优产量且价格高于边际成本','产品无差异','厂商数量过多','信息不完全'],
+      answer:0,
+      explain:'垄断厂商按 MR = MC 定价，导致 P > MC 且产量低于完全竞争时的社会最优产量，消费者剩余减少的一部分未被生产者获得，形成无谓损失。'
+    },
+    {
+      type:'single', score:3,
+      stem:'自然垄断形成的主要原因是（　）。',
+      options:['政府特许','规模经济','专利保护','资源控制'],
+      answer:1,
+      explain:'自然垄断是指由于存在显著的规模经济，由一家厂商供应整个市场的成本低于多家厂商分别生产，典型如供水、供电等公用事业。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'完全竞争市场的特征包括（　）。',
+      options:['市场上有大量的买者和卖者','产品同质、无差别','信息完全充分','厂商可以自由进入和退出市场'],
+      answer:[0,1,2,3],
+      explain:'完全竞争市场的四个基本条件：大量买者卖者（都是价格接受者）、产品同质、信息完全、自由进出。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'关于短期成本曲线，下列说法正确的有（　）。',
+      options:['MC 曲线穿过 AVC 曲线的最低点','MC 曲线穿过 AC 曲线的最低点','AFC 曲线随产量增加而递减','AC = AVC + AFC'],
+      answer:[0,1,2,3],
+      explain:'MC 与 AVC、AC 分别相交于各自最低点；AFC = TFC/Q，随 Q 增加持续递减；AC = AVC + AFC 恒成立。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'形成垄断的原因有（　）。',
+      options:['政府特许经营','专利权保护','对关键资源的独家控制','显著的规模经济'],
+      answer:[0,1,2,3],
+      explain:'垄断成因包括：法律壁垒（特许、专利）、资源壁垒（独家控制）、技术壁垒（规模经济、自然垄断）等。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'完全竞争厂商长期均衡时，下列等式成立的有（　）。',
+      options:['P = LMC = SMC','P = LAC = SAC（最低点）','经济利润为 0','MR = AR = P'],
+      answer:[0,1,2,3],
+      explain:'完全竞争长期均衡时，厂商在 LAC 最低点生产，P = MR = AR = LMC = SMC = LAC = SAC，经济利润为 0。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'边际产量递减意味着总产量一定递减。',
+      answer:false,
+      explain:'错误。边际产量递减但仍为正时，总产量仍在递增，只是增量减小；只有当边际产量降为负值时总产量才递减。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'当 MC = AC 时，AC 达到最小值。',
+      answer:true,
+      explain:'正确。MC < AC 时 AC 递减，MC > AC 时 AC 递增，故 MC 与 AC 相交于 AC 的最低点。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'完全竞争厂商面临的需求曲线是一条水平线。',
+      answer:true,
+      explain:'正确。完全竞争厂商是价格接受者，市场价格由供求决定，单个厂商只能按既定价格出售任意数量，需求曲线为水平线，且 P = AR = MR。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'完全垄断厂商在短期总能获得正的经济利润。',
+      answer:false,
+      explain:'错误。垄断厂商短期中也可能因需求不足或成本过高而亏损，只要 P ≥ AVC 仍会继续生产，P < AVC 则停产。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'三级价格歧视要求不同市场的需求价格弹性不同。',
+      answer:true,
+      explain:'正确。三级价格歧视按 MR1 = MR2 = MC 定价，由 MR = P(1−1/Ed) 可知，弹性小的市场定价高，弹性大的市场定价低，故必须分市场且弹性不同。'
+    },
+    {
+      type:'calc', score:5,
+      stem:'某厂商生产函数 Q = LK，劳动价格 w = 2，资本价格 r = 1，厂商成本支出 C = 200。',
+      sub:'求产量最大化时 L、K 的投入量及最大产量。',
+      answer:'<span class="ans-title">参考答案</span><br>MPL = ∂Q/∂L = K，MPK = ∂Q/∂K = L。<br>产量最大化条件 MPL/MPK = w/r，即 K/L = 2/1 = 2 → K = 2L。<br>成本约束 wL + rK = 2L + K = 200，代入 K = 2L 得 2L + 2L = 200 → 4L = 200 → <b>L = 50</b>，<b>K = 100</b>。<br>最大产量 Q = LK = 50 × 100 = <b>5000</b>。',
+      points:['MPL/MPK = K/L = 2','K = 2L','L=50，K=100','最大产量 Q=5000']
+    },
+    {
+      type:'calc', score:5,
+      stem:'完全竞争厂商短期总成本函数 STC = Q³ − 6Q² + 30Q + 40，产品价格 P = 66。',
+      sub:'求利润最大化时的产量和利润。',
+      answer:'<span class="ans-title">参考答案</span><br>SMC = d(STC)/dQ = 3Q² − 12Q + 30。<br>完全竞争厂商 P = MR = 66，利润最大化条件 MR = SMC：<br>3Q² − 12Q + 30 = 66 → 3Q² − 12Q − 36 = 0 → Q² − 4Q − 12 = 0 → (Q−6)(Q+2) = 0 → <b>Q = 6</b>（舍去负值）。<br>TR = P·Q = 66 × 6 = 396；TC = 6³ − 6×6² + 30×6 + 40 = 216 − 216 + 180 + 40 = 220。<br>利润 π = TR − TC = 396 − 220 = <b>176</b>。',
+      points:['SMC = 3Q²−12Q+30','Q=6','TR=396，TC=220','利润 π=176']
+    },
+    {
+      type:'calc', score:5,
+      stem:'某完全垄断厂商面临的需求函数 P = 100 − 2Q，总成本函数 TC = Q² + 20Q。',
+      sub:'求利润最大化时的产量、价格和利润。',
+      answer:'<span class="ans-title">参考答案</span><br>TR = P·Q = (100 − 2Q)Q = 100Q − 2Q²，故 MR = 100 − 4Q。<br>MC = d(TC)/dQ = 2Q + 20。<br>利润最大化条件 MR = MC：100 − 4Q = 2Q + 20 → 6Q = 80 → <b>Q = 40/3 ≈ 13.33</b>。<br><b>P</b> = 100 − 2×(40/3) = 100 − 80/3 = <b>220/3 ≈ 73.33</b>。<br>π = TR − TC = P·Q − (Q² + 20Q) = (220/3)(40/3) − (1600/9 + 800/3) = 8800/9 − 4000/9 = <b>4800/9 = 1600/3 ≈ 533.33</b>。',
+      points:['MR = 100−4Q','MC = 2Q+20','Q=40/3，P=220/3','利润 π=1600/3≈533.33']
+    },
+    {
+      type:'calc', score:5,
+      stem:'某完全竞争行业成本不变，单个厂商长期总成本函数 LTC = Q³ − 10Q² + 40Q。',
+      sub:'（1）求长期均衡时的价格和单个厂商产量；（2）说明该行业长期供给曲线的形状。',
+      answer:'<span class="ans-title">参考答案</span><br>（1）LAC = LTC/Q = Q² − 10Q + 40。求最小值：d(LAC)/dQ = 2Q − 10 = 0 → <b>Q = 5</b>。<br>最小 LAC = 5² − 10×5 + 40 = 25 − 50 + 40 = <b>15</b>。<br>完全竞争长期均衡时 P = min LAC，故 <b>P = 15</b>。<br>（2）成本不变行业中，厂商进出不影响要素价格，LAC 不变，<b>长期供给曲线为一条水平线</b>，价格恒为最小 LAC = 15。',
+      points:['Q=5','P=min LAC=15','长期供给曲线为水平线']
+    },
+    {
+      type:'essay', score:9,
+      stem:'论述完全竞争厂商短期均衡的五种情况及停止营业点。',
+      answer:'<span class="ans-title">参考答案</span><br>完全竞争厂商短期均衡条件为 MR = SMC（且 P = MR）。根据 P 与 AC、AVC 的关系，有五种情况：<br><b>（1）P > AC（SAC）：</b>获得超额利润（经济利润 > 0）。<br><b>（2）P = AC：</b>收支相抵点，经济利润 = 0，获得正常利润。<br><b>（3）AVC < P < AC：</b>亏损，但继续生产可弥补全部可变成本和部分固定成本，亏损小于停产（固定成本），故仍继续生产。<br><b>（4）P = AVC：</b>停止营业点。此时生产只能弥补可变成本，亏损恰好等于固定成本，生产与停产亏损相同。<br><b>（5）P < AVC：</b>必须停产，否则亏损超过固定成本。<br><b>结论：</b>厂商短期供给曲线是 MC 曲线位于 AVC 最低点以上的部分。',
+      points:['五种情况：盈利、收支相抵、亏损但生产、停止营业点、停产','P=AVC 为停止营业点','短期供给曲线为 AVC 以上的 MC']
+    },
+    {
+      type:'essay', score:9,
+      stem:'比较完全竞争市场与完全垄断市场的经济效率。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）产量与价格：</b>完全竞争长期均衡时产量位于 LAC 最低点，P = LMC = min LAC，产量最高、价格最低；垄断厂商在 LAC 下降段生产（或非最低段），P > LMC，产量低于社会最优、价格更高。<br><b>（2）消费者剩余与无谓损失：</b>完全竞争实现帕累托最优，消费者剩余最大；垄断使消费者剩余减少，其中一部分转移为垄断利润，另一部分成为无谓损失（社会净损失）。<br><b>（3）技术进步与规模经济：</b>完全竞争厂商无超额利润，研发能力有限；垄断厂商凭借超额利润有能力进行研发，但也可能因缺乏竞争而不思进取。自然垄断能发挥规模经济。<br><b>（4）结论：</b>从静态资源配置效率看，完全竞争最优、完全垄断最低；但从动态看垄断可能促进技术进步。因此对垄断应区别对待，对自然垄断进行管制而非简单拆分。',
+      points:['竞争：P=minLAC 产量高价格低','垄断：P>MC 产量低有无谓损失','消费者剩余与无谓损失比较','垄断的规模经济与研发优势','对垄断应区别管制']
+    },
+    {
+      type:'essay', score:9,
+      stem:'说明规模报酬的三种类型，及其与长期平均成本曲线 LAC 的关系。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）规模报酬递增：</b>产量增加的比例大于要素同比例增加的比例，即 f(λL,λK) > λf(L,K)。原因包括分工细化、规模经济、不可分要素等。此时长期平均成本 LAC 递减。<br><b>（2）规模报酬不变：</b>产量增加比例等于要素增加比例，f(λL,λK) = λf(L,K)。此时 LAC 保持不变。<br><b>（3）规模报酬递减：</b>产量增加比例小于要素增加比例，f(λL,λK) < λf(L,K)。原因是管理效率下降、协调成本上升等。此时 LAC 递增。<br><b>（4）与 LAC 的关系：</b>LAC 曲线呈 U 形，下降段对应规模报酬递增，水平段对应不变，上升段对应递减。LAC 最低点对应最佳规模。<br><b>（5）与边际报酬递减的区别：</b>规模报酬分析长期所有要素同比例变动，边际报酬递减分析短期至少一种要素固定。',
+      points:['递增→LAC 下降','不变→LAC 水平','递减→LAC 上升','LAC 呈 U 形','与边际报酬递减的区别']
+    }
+  ]
+},
+/* ---------------------------- 第 3 轮 ---------------------------- */
+{
+  name:'第三轮',
+  topic:'垄断竞争与寡头 · 要素市场 · 一般均衡与福利',
+  questions:[
+    {
+      type:'single', score:3,
+      stem:'垄断竞争厂商短期均衡的条件是（　）。',
+      options:['MR = LMC','MR = SMC','P = SAC','P = MC'],
+      answer:1,
+      explain:'垄断竞争厂商短期利润最大化条件与其他市场一致，为 MR = SMC；长期均衡还需加上 P = LAC（经济利润为 0）。'
+    },
+    {
+      type:'single', score:3,
+      stem:'垄断竞争厂商长期均衡时，其经济利润（　）。',
+      options:['大于 0','等于 0','小于 0','不确定'],
+      answer:1,
+      explain:'垄断竞争市场进入退出较自由，长期内若有超额利润会吸引新厂商进入，使需求曲线左移，直到 P = LAC，经济利润为 0。'
+    },
+    {
+      type:'single', score:3,
+      stem:'古诺双寡头模型中，若市场需求为 P = a − bQ，两厂商边际成本均为 c，则每个厂商均衡产量为市场总容量的（　）。',
+      options:['1/2','1/3','1/4','2/3'],
+      answer:1,
+      explain:'古诺均衡中每个厂商产量 q = (a−c)/(3b)，总产量 Q = 2(a−c)/(3b)，市场总容量（完全竞争产量）为 (a−c)/b，故每个厂商产量占总容量的 1/3。'
+    },
+    {
+      type:'single', score:3,
+      stem:'折弯的需求曲线模型主要用于解释寡头市场的（　）。',
+      options:['产量决定','价格刚性','广告行为','产品差别'],
+      answer:1,
+      explain:'折弯的需求曲线（斯威齐模型）假设"跟跌不跟涨"，使边际收益曲线出现缺口，从而解释寡头市场价格相对稳定（价格刚性）。'
+    },
+    {
+      type:'single', score:3,
+      stem:'完全竞争厂商使用生产要素的原则是（　）。',
+      options:['MRP = MFC','VMP = w（边际产品价值等于要素价格）','MP = w','VMP = P'],
+      answer:1,
+      explain:'完全竞争厂商（产品市场和要素市场均完全竞争）使用要素的原则是 VMP = MFC，而 VMP = P·MP，MFC = w，即 P·MP = w，或 MRP = w。'
+    },
+    {
+      type:'single', score:3,
+      stem:'劳动供给曲线向后弯曲的原因是（　）。',
+      options:['替代效应大于收入效应','收入效应大于替代效应','工资率持续上升','劳动需求下降'],
+      answer:1,
+      explain:'工资率提高时，替代效应使劳动供给增加，收入效应使劳动供给减少（对闲暇需求增加）。当工资较高时，收入效应大于替代效应，劳动供给随工资上升而减少，曲线向后弯曲。'
+    },
+    {
+      type:'single', score:3,
+      stem:'一般均衡分析的代表人物是（　）。',
+      options:['马歇尔','瓦尔拉斯','凯恩斯','萨缪尔森'],
+      answer:1,
+      explain:'法国经济学家瓦尔拉斯最早提出一般均衡理论，用数学方法证明在完全竞争条件下存在一组价格使所有市场同时出清。'
+    },
+    {
+      type:'single', score:3,
+      stem:'帕累托最优状态是指（　）。',
+      options:['产量最大的状态','收入分配最公平的状态','无法在不使他人境况变坏的情况下使某人境况变好','所有人效用相等的状态'],
+      answer:2,
+      explain:'帕累托最优（帕累托效率）是指资源配置达到这样一种状态：任何改变都不可能在不使至少一人境况变坏的前提下使至少一人境况变好。'
+    },
+    {
+      type:'single', score:3,
+      stem:'生产可能性曲线斜率的绝对值等于（　）。',
+      options:['边际替代率 MRS','边际技术替代率 MRTS','边际转换率 MRT','边际产量 MP'],
+      answer:2,
+      explain:'生产可能性曲线斜率的绝对值为边际转换率 MRT = MCx/MCy，表示在资源既定下增加一单位 X 需放弃的 Y 数量。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'垄断竞争市场的特征有（　）。',
+      options:['厂商数量众多','产品存在差别','厂商进出市场比较容易','厂商对价格有一定控制力'],
+      answer:[0,1,2,3],
+      explain:'垄断竞争特征：大量厂商、产品有差别（最显著特征）、进出较易、厂商因产品差别对价格有一定控制能力。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'寡头垄断市场的特点有（　）。',
+      options:['厂商数量少、相互依存','厂商决策存在不确定性','存在较高的进入壁垒','可能存在合谋行为'],
+      answer:[0,1,2,3],
+      explain:'寡头市场厂商数少、相互依存、决策互为影响，导致结果不确定；进入壁垒高，厂商间可能形成卡特尔等合谋。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'实现帕累托最优的三个边际条件包括（　）。',
+      options:['交换的帕累托最优：任意两消费者对任意两商品的 MRS 相等','生产的帕累托最优：任意两生产者对任意两要素的 MRTS 相等','交换和生产的帕累托最优：MRS = MRT','所有厂商 MC 相等'],
+      answer:[0,1,2],
+      explain:'帕累托最优的三个边际条件：交换最优（MRS 相等）、生产最优（MRTS 相等）、交换与生产同时最优（MRS = MRT）。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'导致市场失灵的原因主要有（　）。',
+      options:['垄断','外部性','公共物品','信息不对称'],
+      answer:[0,1,2,3],
+      explain:'市场失灵的主要根源包括垄断（市场势力）、外部性、公共物品（搭便车）和信息不对称（逆向选择、道德风险）。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'垄断竞争厂商长期均衡时在 LAC 曲线的最低点进行生产。',
+      answer:false,
+      explain:'错误。垄断竞争长期均衡点位于 LAC 曲线最低点的左侧（LAC 下降段），存在过剩生产能力，这是产品差别化的代价。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'古诺均衡是一种纳什均衡。',
+      answer:true,
+      explain:'正确。古诺均衡中，每个厂商在给定对方产量的条件下选择使自身利润最大化的产量，且双方都没有动机单方面改变，符合纳什均衡定义。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'工资率提高的替代效应会使劳动供给增加。',
+      answer:true,
+      explain:'正确。工资率提高意味着闲暇的机会成本上升，劳动者倾向于用劳动替代闲暇，从而劳动供给增加。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'完全竞争要素市场上，单个厂商面临的要素供给曲线是水平线。',
+      answer:true,
+      explain:'正确。完全竞争要素市场中，单个厂商是要素价格接受者，可按既定价格购买任意数量要素，故面临的要素供给曲线为水平线。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'公共物品具有非竞争性和非排他性。',
+      answer:true,
+      explain:'正确。非竞争性指增加一个消费者不影响他人消费；非排他性指难以排除他人免费使用。这两个特征导致市场供给不足。'
+    },
+    {
+      type:'calc', score:5,
+      stem:'古诺双寡头模型：市场需求 P = 100 − Q，两厂商边际成本均为 c = 10，无固定成本。',
+      sub:'求古诺均衡时各厂商产量、市场价格及各自利润。',
+      answer:'<span class="ans-title">参考答案</span><br>设厂商 1、2 产量分别为 q1、q2，市场总产量 Q = q1+q2。<br>厂商 1 利润 π1 = (100−q1−q2)q1 − 10q1 = 90q1 − q1² − q1q2。<br>一阶条件 ∂π1/∂q1 = 90 − 2q1 − q2 = 0 → 反应函数 <b>q1 = (90 − q2)/2</b>。<br>同理 q2 = (90 − q1)/2。<br>联立：q1 = q2 = 30。<br>总产量 Q = 60，价格 P = 100 − 60 = <b>40</b>。<br>各厂商利润 π1 = π2 = (40−10)×30 = <b>900</b>。',
+      points:['反应函数 q1=(90−q2)/2','q1=q2=30','P=40','各利润 900']
+    },
+    {
+      type:'calc', score:5,
+      stem:'完全竞争厂商生产函数 Q = 10L − 0.5L²，产品价格 P = 2，工资率 w = 10。',
+      sub:'求厂商实现利润最大化时雇佣的劳动量。',
+      answer:'<span class="ans-title">参考答案</span><br>劳动的边际产量 MPL = dQ/dL = 10 − L。<br>边际产品价值 VMP = P·MPL = 2×(10 − L) = 20 − 2L。<br>完全竞争厂商使用要素原则 VMP = w：<br>20 − 2L = 10 → 2L = 10 → <b>L = 5</b>。',
+      points:['MPL = 10−L','VMP = 20−2L','VMP = w → L=5']
+    },
+    {
+      type:'calc', score:5,
+      stem:'某完全垄断厂商面临需求 P = 200 − Q，总成本 TC = 20Q。若该厂商实行完全价格歧视（一级价格歧视）。',
+      sub:'求其利润最大化产量和利润。',
+      answer:'<span class="ans-title">参考答案</span><br>完全价格歧视时，厂商按每个消费者的保留价格出售，需求曲线即为边际收益曲线，利润最大化条件为 P = MC。<br>MC = d(TC)/dQ = 20，令 200 − Q = 20 → <b>Q = 180</b>。<br>此时所有消费者剩余被厂商占有，利润 = 消费者剩余 = 1/2 × (200 − 20) × 180 = <b>16 200</b>。<br><b>注：</b>相比单一定价（Q=90, P=110, 利润=8100），完全价格歧视产量更大、利润更高，且实现了帕累托最优（P=MC），但消费者剩余为零。',
+      points:['完全价格歧视下 P=MC','Q=180','利润=消费者剩余=16200','实现帕累托最优']
+    },
+    {
+      type:'calc', score:5,
+      stem:'在两个消费者 A、B 的交换经济中，消费者 A 对商品 X、Y 的边际替代率 MRS_A = 2，消费者 B 的 MRS_B = 3。',
+      sub:'判断该交换是否处于帕累托最优状态；若不是，如何交换能实现帕累托改进？',
+      answer:'<span class="ans-title">参考答案</span><br>交换的帕累托最优要求 MRS_A = MRS_B。本题 MRS_A = 2 ≠ MRS_B = 3，故<b>未达到</b>帕累托最优。<br>MRS_A = 2 表示 A 愿用 2 单位 Y 换 1 单位 X；MRS_B = 3 表示 B 愿为 1 单位 X 放弃 3 单位 Y。<br><b>帕累托改进：</b>A 用 1 单位 X 换取 B 的 2.5 单位 Y（介于 2 与 3 之间）。A 多换得 0.5Y，B 少付出 0.5Y，双方效用都提高，无人受损。<br>最终当 MRS_A = MRS_B 时达到交换的帕累托最优。',
+      points:['MRS 不等，未最优','A 愿 2Y 换 1X，B 愿 3Y 换 1X','用 2.5Y 交换 1X 实现帕累托改进']
+    },
+    {
+      type:'essay', score:9,
+      stem:'比较完全竞争、垄断竞争和完全垄断三种市场结构的长期均衡及经济效率。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）完全竞争：</b>长期均衡时 P = MR = LMC = LAC（最低点），产量最大、价格最低，经济利润为 0，资源配置最优，实现帕累托最优，无无谓损失。<br><b>（2）垄断竞争：</b>长期均衡时 MR = LMC 且 P = LAC（位于 LAC 下降段），经济利润为 0，但产量小于完全竞争、价格高于完全竞争，存在过剩生产能力和一定无谓损失。效率介于二者之间，产品差别化可满足消费者多样化需求。<br><b>（3）完全垄断：</b>长期均衡时 MR = LMC，P > LAC，可获得超额利润，产量最低、价格最高，存在显著无谓损失，经济效率最低。但可能获得规模经济收益和研发优势。<br><b>（4）综合：</b>从静态效率看 完全竞争 > 垄断竞争 > 完全垄断；从动态效率看，一定的市场势力可能促进技术创新。',
+      points:['竞争：P=minLAC 效率最高','垄断竞争：P=LAC(下降段) 有过剩产能','垄断：P>LAC 有效率损失','静态效率排序','动态效率的权衡']
+    },
+    {
+      type:'essay', score:9,
+      stem:'试述劳动供给曲线向后弯曲的原因。',
+      answer:'<span class="ans-title">参考答案</span><br>劳动供给曲线表示工资率与劳动供给量之间的关系。在工资率较低时劳动供给随工资上升而增加，工资率较高时反而随工资上升而减少，呈向后弯曲形状。其原因在于工资率变动的<b>替代效应</b>与<b>收入效应</b>：<br><b>（1）替代效应：</b>工资率上升意味着闲暇的机会成本（价格）上升，劳动者倾向于用劳动替代闲暇，从而增加劳动供给。<br><b>（2）收入效应：</b>工资率上升使劳动者收入增加，对闲暇（正常品）的需求增加，从而减少劳动供给。<br><b>（3）综合作用：</b>在工资率较低时，替代效应 > 收入效应，劳动供给随工资上升而增加，曲线向右上方倾斜；当工资率上升到一定水平后，收入效应 > 替代效应，劳动供给随工资上升而减少，曲线向左上方弯曲（向后弯）。',
+      points:['替代效应使劳动供给增加','收入效应使劳动供给减少','低工资阶段替代>收入','高工资阶段收入>替代','曲线向后弯曲']
+    },
+    {
+      type:'essay', score:9,
+      stem:'论述帕累托最优的含义、实现的三个边际条件，并说明完全竞争市场为何能实现帕累托最优。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）含义：</b>帕累托最优是指资源配置达到一种状态：任何改变都无法在不使至少一人境况变坏的情况下使至少一人境况变好。<br><b>（2）三个边际条件：</b>① 交换最优：任意两消费者对任意两商品的 MRS 相等，即 MRS_A = MRS_B；② 生产最优：任意两生产者对任意两要素的 MRTS 相等，即 MRTS_X = MRTS_Y；③ 交换与生产同时最优：任意两商品的 MRS 等于边际转换率 MRT，即 MRS = MRT。<br><b>（3）完全竞争市场的实现机制：</b>① 消费者均衡：MRSxy = Px/Py，所有消费者面对相同价格，故 MRS 相等；② 生产者均衡：MRTS_LK = w/r，所有厂商面对相同要素价格，故 MRTS 相等；③ 厂商利润最大化：P = MC，而 MRT = MCx/MCy = Px/Py，故 MRS = Px/Py = MRT。<br><b>结论：</b>完全竞争市场中，价格机制引导经济主体决策，使三个边际条件同时满足，实现帕累托最优（福利经济学第一定理）。',
+      points:['帕累托最优含义','三个边际条件','消费者 MRS=Px/Py','生产者 MRTS=w/r','P=MC 推出 MRS=MRT','福利经济学第一定理']
+    }
+  ]
+},
+/* ---------------------------- 第 4 轮 ---------------------------- */
+{
+  name:'第四轮',
+  topic:'市场失灵 · 博弈论 · 信息经济学（考研拓展）',
+  questions:[
+    {
+      type:'single', score:3,
+      stem:'存在负外部性时，私人市场的产量与社会最优产量相比（　）。',
+      options:['偏低','偏高','相等','无法确定'],
+      answer:1,
+      explain:'负外部性使社会成本大于私人成本，私人厂商按私人边际成本定价会过度生产，导致产量高于社会最优产量，造成资源配置失当。'
+    },
+    {
+      type:'single', score:3,
+      stem:'科斯定理发挥作用的前提条件是（　）。',
+      options:['产权清晰且交易成本为零或很低','政府必须征税','产权归政府所有','市场是完全垄断的'],
+      answer:0,
+      explain:'科斯定理认为只要产权明确界定且交易成本为零或很低，无论初始产权归谁，市场交易都能实现资源的最优配置。'
+    },
+    {
+      type:'single', score:3,
+      stem:'公共物品通常由（　）。',
+      options:['私人市场充分供给','政府提供','完全竞争厂商提供','自然垄断厂商提供'],
+      answer:1,
+      explain:'公共物品的非排他性导致"搭便车"问题，私人市场供给不足，因此通常由政府提供或资助。'
+    },
+    {
+      type:'single', score:3,
+      stem:'庇古税的目的是使私人边际成本等于（　）。',
+      options:['社会边际成本','边际收益','平均成本','价格'],
+      answer:0,
+      explain:'庇古税通过对产生负外部性的行为征税，使厂商的私人边际成本加上税额等于社会边际成本，从而使产量回到社会最优水平。'
+    },
+    {
+      type:'single', score:3,
+      stem:'囚徒困境博弈的纳什均衡是（　）。',
+      options:['双方都不坦白','双方都坦白','一方坦白一方不坦白','没有纳什均衡'],
+      answer:1,
+      explain:'在囚徒困境中，无论对方是否坦白，"坦白"都是每个囚徒的占优策略，因此纳什均衡是（坦白，坦白），尽管双方都不坦白更好。'
+    },
+    {
+      type:'single', score:3,
+      stem:'占优策略均衡与纳什均衡的关系是（　）。',
+      options:['占优策略均衡一定是纳什均衡','纳什均衡一定是占优策略均衡','二者没有关系','占优策略均衡不是纳什均衡'],
+      answer:0,
+      explain:'占优策略均衡要求每个参与者的策略都是对对方任意策略的最优反应，自然满足纳什均衡条件（给定对方策略，己方最优），故占优策略均衡一定是纳什均衡，反之不一定。'
+    },
+    {
+      type:'single', score:3,
+      stem:'逆向选择问题产生于（　）。',
+      options:['交易之前的信息不对称','交易之后的信息不对称','交易双方信息完全对称','政府过度干预'],
+      answer:0,
+      explain:'逆向选择是事前信息不对称导致的，即交易中拥有信息优势的一方利用信息优势损害对方利益，导致劣质品驱逐优质品。'
+    },
+    {
+      type:'single', score:3,
+      stem:'道德风险问题产生于（　）。',
+      options:['交易之前的信息不对称','交易之后的信息不对称','完全竞争市场','公共物品供给'],
+      answer:1,
+      explain:'道德风险是事后信息不对称导致的，即交易达成后一方行为难以被另一方观察，从而采取损害对方利益的行为，如保险中的过度冒险。'
+    },
+    {
+      type:'single', score:3,
+      stem:'下列属于信号传递（signaling）的例子是（　）。',
+      options:['求职者向雇主展示学历文凭','保险公司设置不同免赔额','政府对污染征税','厂商制定价格'],
+      answer:0,
+      explain:'信号传递是信息优势方主动向信息劣势方发送可信信号以显示自身类型，如学历文凭、质量保修、品牌声誉等。B 项属于信息甄别（screening）。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'下列属于正外部性的有（　）。',
+      options:['教育','基础科学研究','传染病疫苗接种','美化庭院绿化'],
+      answer:[0,1,2,3],
+      explain:'正外部性是私人活动给他人带来未付报酬的收益。教育、科研、疫苗接种、绿化都使社会他人受益，属于正外部性。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'公共物品的特征包括（　）。',
+      options:['非竞争性','非排他性','容易出现搭便车现象','市场供给充足'],
+      answer:[0,1,2],
+      explain:'公共物品具有非竞争性和非排他性，导致搭便车问题，私人市场供给不足，而非供给充足。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'纠正外部性的方法有（　）。',
+      options:['征收庇古税或发放补贴','企业合并（外部性内部化）','明晰产权（科斯定理）','政府直接数量管制'],
+      answer:[0,1,2,3],
+      explain:'纠正外部性的方法包括：庇古税/补贴、企业合并、界定产权（科斯方案）以及政府管制（如排放标准、配额）等。'
+    },
+    {
+      type:'multi', score:4,
+      stem:'下列属于解决信息不对称机制的有（　）。',
+      options:['教育文凭作为能力信号','产品质量保修承诺','保险免赔额与共保条款','声誉机制'],
+      answer:[0,1,2,3],
+      explain:'信号传递（文凭、保修）、信息甄别（免赔额、自付比例）、声誉机制和第三方认证都是缓解信息不对称的常见机制。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'正外部性导致私人收益小于社会收益，市场供给不足。',
+      answer:true,
+      explain:'正确。正外部性使社会收益大于私人收益，厂商按私人边际收益决策会导致产量低于社会最优，出现供给不足。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'科斯定理认为只要产权界定清晰，无论交易成本多高都能实现资源最优配置。',
+      answer:false,
+      explain:'错误。科斯定理要求产权清晰且交易成本为零或很低；当交易成本很高时，即使产权清晰，市场也难以达成有效交易。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'纳什均衡中每个参与者都选择了占优策略。',
+      answer:false,
+      explain:'错误。纳什均衡只要求给定对方策略时己方策略最优，不一定每个参与者都有占优策略。占优策略均衡是纳什均衡的特例。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'道德风险发生在交易达成之前。',
+      answer:false,
+      explain:'错误。道德风险发生在交易达成之后，是事后信息不对称导致的行为扭曲；事前信息不对称导致的是逆向选择。'
+    },
+    {
+      type:'judge', score:2,
+      stem:'公共物品的市场需求曲线是个人需求曲线的水平相加。',
+      answer:false,
+      explain:'错误。公共物品具有非竞争性，所有消费者消费同一数量，其市场需求曲线是个人需求曲线的<b>垂直相加</b>；私人物品市场需求曲线才是水平相加。'
+    },
+    {
+      type:'calc', score:5,
+      stem:'某工厂排放污染，私人边际成本 MCp = Q，社会边际成本 MCs = Q + 2，市场需求（边际收益）P = 20 − Q。',
+      sub:'（1）求自由市场的产量与价格；（2）求社会最优产量；（3）求应征收的庇古税。',
+      answer:'<span class="ans-title">参考答案</span><br>（1）自由市场厂商按私人边际成本决策：MR = MCp，即 20 − 2Q = Q → 3Q = 20 → <b>Q = 20/3 ≈ 6.67</b>，<b>P = 20 − 20/3 = 40/3 ≈ 13.33</b>。<br>（2）社会最优要求 MR = MCs：20 − 2Q = Q + 2 → 3Q = 18 → <b>Q = 6</b>，<b>P = 14</b>。<br>（3）庇古税 t 应等于边际外部成本，即 MCs − MCp = 2，故 <b>t = 2</b>。征税后私人边际成本变为 Q + 2，厂商决策回到社会最优 Q = 6。',
+      points:['自由产量 Q=20/3≈6.67','社会最优 Q=6','庇古税 t=2']
+    },
+    {
+      type:'calc', score:5,
+      stem:'两厂商做广告博弈收益如下（行厂商 A，列厂商 B）：双方都做广告各得 5；双方都不做各得 10；A 做而 B 不做时 A 得 15、B 得 2；反之 A 得 2、B 得 15。',
+      sub:'求该博弈的纳什均衡，并说明是否属于囚徒困境。',
+      answer:'<span class="ans-title">参考答案</span><br>对厂商 A：若 B 做广告，A 做(5) > 不做(2)；若 B 不做广告，A 做(15) > 不做(10)。故"做广告"是 A 的占优策略。同理"做广告"也是 B 的占优策略。<br>因此占优策略均衡为（做，做），收益为 (5, 5)，这也是该博弈唯一的纳什均衡。<br><b>是否囚徒困境：</b>是。若双方都不做广告，收益为 (10, 10)，比 (5, 5) 更高，但个人理性导致集体非理性，陷入囚徒困境。',
+      points:['双方占优策略都是"做广告"','纳什均衡（做，做）收益(5,5)','属于囚徒困境','合作解（不做，不做）收益(10,10)']
+    },
+    {
+      type:'calc', score:5,
+      stem:'两人对某公共物品的反需求分别为 P1 = 10 − Q，P2 = 20 − Q，公共物品边际成本 MC = 12（常数）。',
+      sub:'求该公共物品的社会最优供给量。',
+      answer:'<span class="ans-title">参考答案</span><br>公共物品的市场需求曲线是个人需求曲线的<b>垂直相加</b>：<br>P = P1 + P2 = (10 − Q) + (20 − Q) = 30 − 2Q。<br>公共物品最优供给满足社会总支付意愿 = MC：<br>30 − 2Q = 12 → 2Q = 18 → <b>Q = 9</b>。<br>此时两人支付意愿分别为 P1 = 1，P2 = 11，合计 12 = MC。',
+      points:['总需求 P=30−2Q（垂直相加）','令 P=MC','最优供给 Q=9']
+    },
+    {
+      type:'calc', score:5,
+      stem:'二手车市场：好车对卖者价值 10 万元、对买者价值 12 万元；坏车对卖者价值 4 万元、对买者价值 6 万元。买者无法区分，认为好车与坏车各占 50%。',
+      sub:'（1）求买者愿意支付的价格；（2）分析市场最终结果（逆向选择）。',
+      answer:'<span class="ans-title">参考答案</span><br>（1）买者按期望价值出价：E(V) = 0.5×12 + 0.5×6 = <b>9 万元</b>。<br>（2）好车卖者的保留价格为 10 万元，高于 9 万元，好车卖者<b>不愿出售</b>，退出市场；市场只剩坏车，买者知道后只愿出 6 万元，最终市场只有坏车成交（价格 4~6 万元），好车消失。<br><b>结论：</b>这就是逆向选择——信息不对称导致"劣币驱逐良币"，市场萎缩甚至瓦解。解决方式包括信号传递（第三方鉴定、保修）、信息甄别和声誉机制。',
+      points:['买方出价 9 万元','好车退出市场','只剩坏车成交','逆向选择的结论']
+    },
+    {
+      type:'essay', score:9,
+      stem:'论述外部性的含义、分类以及纠正外部性的主要政策。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）含义：</b>外部性是指某经济主体的行为对其他主体的福利产生了影响，但这种影响未通过市场价格反映出来，即未计入私人成本或私人收益。<br><b>（2）分类：</b>① 正外部性（外部经济）：私人收益 < 社会收益，如教育、科研；② 负外部性（外部不经济）：私人成本 < 社会成本，如污染、噪音。按主体可分为生产外部性和消费外部性。<br><b>（3）市场失灵表现：</b>正外部性导致供给不足，负外部性导致供给过度，产量偏离社会最优。<br><b>（4）纠正政策：</b>① 庇古税与补贴：对负外部性征税（使私人成本=社会成本），对正外部性补贴（使私人收益=社会收益）；② 企业合并：将外部性内部化；③ 明晰产权（科斯定理）：在交易成本很低时通过市场交易解决；④ 政府管制：排放标准、配额、可交易许可证等；⑤ 道德约束与社会规范。<br><b>（5）政策选择：</b>信息充分时庇古税最优；产权清晰且交易成本低时科斯方案最优；复杂情况下可结合多种工具。',
+      points:['外部性含义与分类','正负外部性导致的市场失灵','庇古税/补贴','企业合并','科斯定理','政府管制与可交易许可证']
+    },
+    {
+      type:'essay', score:9,
+      stem:'试述公共物品的特征，分析其导致市场失灵的原因，并说明政府提供公共物品的依据。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）特征：</b>① 非竞争性：增加一个消费者的边际成本为 0，不会影响他人消费；② 非排他性：难以排除他人免费使用，排除成本极高。同时具有两个特征的是纯公共物品，如国防、法律。<br><b>（2）市场失灵原因：</b>由于非排他性，消费者倾向于"搭便车"（free rider），即不付费也能消费，导致私人厂商无法通过收费弥补成本，市场供给严重不足，甚至为零。此外，公共物品的市场需求曲线是个人需求的垂直相加，市场机制难以揭示真实偏好。<br><b>（3）政府提供的依据：</b>政府可凭借征税权为公共物品融资，克服搭便车问题；政府提供能提高社会福利，实现资源配置的帕累托改进。<br><b>（4）注意：</b>政府提供不等于政府直接生产，可由政府出资、私人生产（如政府采购）；政府也面临公共选择和效率问题，需在市场失灵与政府失灵之间权衡。',
+      points:['非竞争性与非排他性','搭便车导致供给不足','市场需求曲线垂直相加','政府征税融资克服搭便车','政府提供不等于政府生产']
+    },
+    {
+      type:'essay', score:9,
+      stem:'论述信息不对称导致的逆向选择与道德风险，并说明相应的解决机制。',
+      answer:'<span class="ans-title">参考答案</span><br><b>（1）信息不对称：</b>交易双方拥有的信息不同，一方拥有私人信息。按发生时间分为事前（逆向选择）和事后（道德风险）。<br><b>（2）逆向选择：</b>发生在交易之前。信息优势方利用私人信息选择对自身有利而损害对方的交易，导致优质品被淘汰。典型例子：二手车市场（劣币驱逐良币）、健康保险（高风险者更愿投保）。解决机制：信号传递（信息优势方主动发送可信信号，如文凭、保修、品牌）、信息甄别（信息劣势方设计筛选机制，如保险免赔额、不同费率）、第三方认证。<br><b>（3）道德风险：</b>发生在交易之后。签约后一方行为不可观察，从而采取损害对方利益的行动。典型例子：购买财产保险后疏于防范、雇佣关系中雇员偷懒（委托—代理问题）。解决机制：激励机制设计（如分成制、股票期权、效率工资）、监督、风险共担（免赔额、共保）、声誉与重复博弈、合同设计。<br><b>（4）综合：</b>信息不对称是市场失灵的重要原因，通过信号、甄别、激励、声誉等机制可以部分缓解，但完全消除不现实，需要政府监管和法律制度配合。',
+      points:['信息不对称的含义','逆向选择（事前）及例子','道德风险（事后）及例子','信号传递与信息甄别','激励机制与监督','委托—代理问题']
+    }
+  ]
+}
+];
+
+/* ============================================================
+   状态与渲染
+   ============================================================ */
+const KEY = 'pe_qbank_v1';
+let store = loadStore();
+
+function loadStore(){
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if(s && Array.isArray(s.rounds)) return s;
+  }catch(e){}
+  return { round:0, rounds:[] };
+}
+function saveStore(){
+  try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){}
+}
+function roundState(i){
+  while(store.rounds.length <= i) store.rounds.push(null);
+  if(!store.rounds[i]){
+    store.rounds[i] = { answers:{}, submitted:false, reveal:{}, self:{} };
+  }
+  return store.rounds[i];
+}
+function hasAnswer(q,i,R){
+  const a = R.answers[i];
+  if(q.type === 'single' || q.type === 'judge') return a !== undefined && a !== null;
+  if(q.type === 'multi') return Array.isArray(a) && a.length > 0;
+  return typeof a === 'string' && a.trim().length > 0;
+}
+function gradeObjective(q, ans){
+  if(q.type === 'single'){
+    if(ans === undefined || ans === null) return 0;
+    return Number(ans) === q.answer ? q.score : 0;
+  }
+  if(q.type === 'judge'){
+    if(ans === undefined || ans === null) return 0;
+    return String(ans) === String(q.answer) ? q.score : 0;
+  }
+  if(q.type === 'multi'){
+    if(!Array.isArray(ans) || !ans.length) return 0;
+    const sel = ans.map(Number);
+    const wrong = sel.some(x => !q.answer.includes(x));
+    if(wrong) return 0;
+    if(sel.length === q.answer.length) return q.score;
+    return q.score * 0.5;
+  }
+  return 0;
+}
+function fmt(n){
+  return (Math.round(n * 10) / 10).toString().replace(/\.0$/, '');
+}
+function ansText(q){
+  if(q.type === 'single') return L[q.answer] + '. ' + q.options[q.answer];
+  if(q.type === 'multi') return q.answer.map(x => L[x]).join('、');
+  return q.answer ? '正确' : '错误';
+}
+
+/* ---------- 卡片模板 ---------- */
+function cardHTML(q, i, R, submitted){
+  const idx = i + 1;
+  const isObj = q.type === 'single' || q.type === 'multi' || q.type === 'judge';
+  const gain = submitted && isObj ? gradeObjective(q, R.answers[i]) : null;
+
+  let headGain = '';
+  if(submitted){
+    if(isObj){
+      const g = gradeObjective(q, R.answers[i]);
+      const cls = g === q.score ? '' : (g > 0 ? 'half' : 'zero');
+      headGain = `<span class="q-gain ${cls}">${g > 0 ? '+' : ''}${fmt(g)} 分</span>`;
+    } else {
+      const s = R.self[i];
+      if(s !== undefined){
+        const g = s * q.score;
+        const cls = s === 1 ? '' : (s > 0 ? 'half' : 'zero');
+        headGain = `<span class="q-gain ${cls}">${g > 0 ? '+' : ''}${fmt(g)} 分</span>`;
+      } else {
+        headGain = `<span class="q-gain zero">待自评</span>`;
+      }
+    }
+  }
+
+  let body = '';
+  if(q.type === 'single' || q.type === 'multi'){
+    const mode = q.type === 'single' ? 'radio' : 'checkbox';
+    body = `<div class="options">` + q.options.map((t, j) => {
+      const a = R.answers[i];
+      const chosen = q.type === 'single' ? a === j : (Array.isArray(a) && a.includes(j));
+      let cls = 'opt';
+      if(chosen) cls += ' chosen';
+      if(submitted){
+        if(q.answer === j) cls += ' correct';
+        else if(chosen) cls += ' wrong';
+      }
+      return `<label class="${cls}">
+        <input type="${mode}" name="q${i}" value="${j}" ${chosen ? 'checked' : ''} ${submitted ? 'disabled' : ''}>
+        <span class="opt-key">${L[j]}</span>
+        <span class="opt-text">${t}</span>
+      </label>`;
+    }).join('') + `</div>`;
+  } else if(q.type === 'judge'){
+    body = `<div class="options judge">` + [true, false].map(v => {
+      const chosen = R.answers[i] !== undefined && String(R.answers[i]) === String(v);
+      let cls = 'opt';
+      if(chosen) cls += ' chosen';
+      if(submitted){
+        if(q.answer === v) cls += ' correct';
+        else if(chosen) cls += ' wrong';
+      }
+      return `<label class="${cls}">
+        <input type="radio" name="q${i}" value="${v}" ${chosen ? 'checked' : ''} ${submitted ? 'disabled' : ''}>
+        <span class="opt-key">${v ? '✓' : '✕'}</span>
+        <span class="opt-text">${v ? '正确' : '错误'}</span>
+      </label>`;
+    }).join('') + `</div>`;
+  } else {
+    const text = typeof R.answers[i] === 'string' ? R.answers[i] : '';
+    const revealed = !!R.reveal[i];
+    const self = R.self[i];
+    body = `<div class="written">
+      <textarea class="wr" data-idx="${i}" placeholder="在此写下你的思路与答案（可对照参考答案后自评）">${escapeHTML(text)}</textarea>
+      <div class="written-tools">
+        <button type="button" class="btn-ghost reveal" data-idx="${i}">${revealed ? '收起参考答案' : '查看参考答案'}</button>
+        <div class="self-grade">自评：
+          <button type="button" class="sg-btn ${self === 1 ? 'active' : ''}" data-idx="${i}" data-grade="1">满分 ${fmt(q.score)}</button>
+          <button type="button" class="sg-btn ${self === 0.5 ? 'active' : ''}" data-idx="${i}" data-grade="0.5">一半 ${fmt(q.score * 0.5)}</button>
+          <button type="button" class="sg-btn ${self === 0 ? 'active' : ''}" data-idx="${i}" data-grade="0">0 分</button>
+        </div>
+      </div>
+      <div class="answer-box ${revealed ? 'show' : ''}" data-answer="${i}">${q.answer}</div>
+    </div>`;
+  }
+
+  // 客观题解析
+  let feedback = '';
+  if(isObj && submitted){
+    const g = gradeObjective(q, R.answers[i]);
+    feedback = `<div class="feedback show">
+      <div class="fb-row"><span class="fb-label">正确答案</span><span class="fb-answer ${g === q.score ? '' : 'bad'}">${ansText(q)}</span></div>
+      <div class="fb-row"><span class="fb-label">解析</span>${q.explain}</div>
+      </div>`;
+  }
+
+  return `<article class="q-card" data-type="${q.type}" data-idx="${i}" id="q${i}">
+    <div class="q-head">
+      <span class="q-no">${idx}</span>
+      <span class="badge ${q.type}">${TYPE_LABEL[q.type]}</span>
+      <span class="q-points"><b>${q.score}</b> 分</span>
+      ${headGain}
+    </div>
+    <div class="q-stem">${q.stem}${q.sub ? `<span class="q-sub">${q.sub}</span>` : ''}</div>
+    ${body}
+    ${feedback}
+  </article>`;
+}
+
+const TYPE_LABEL = { single:'单项选择', multi:'多项选择', judge:'判断', calc:'计算题', essay:'主观题' };
+
+function escapeHTML(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ---------- 计分 ---------- */
+function objectiveScore(round, R){
+  return round.questions.reduce((sum, q, i) => {
+    if(q.type === 'calc' || q.type === 'essay') return sum;
+    return sum + gradeObjective(q, R.answers[i]);
+  }, 0);
+}
+function selfScore(round, R){
+  return round.questions.reduce((sum, q, i) => {
+    if(q.type !== 'calc' && q.type !== 'essay') return sum;
+    const s = R.self[i];
+    return sum + (s === undefined ? 0 : s * q.score);
+  }, 0);
+}
+function totalScore(round, R){
+  return objectiveScore(round, R) + selfScore(round, R);
+}
+
+/* ---------- 界面渲染 ---------- */
+const tabsEl = document.getElementById('tabs');
+const questionsEl = document.getElementById('questions');
+const navEl = document.getElementById('navGrid');
+const bannerEl = document.getElementById('banner');
+const progText = document.getElementById('progText');
+const progBar = document.getElementById('progBar');
+const progTip = document.getElementById('progTip');
+const scoreNum = document.getElementById('scoreNum');
+
+function renderTabs(){
+  tabsEl.innerHTML = QB.map((r, i) => {
+    const R = roundState(i);
+    const done = R.submitted;
+    const sc = done ? fmt(totalScore(r, R)) : '';
+    return `<button class="tab ${store.round === i ? 'active' : ''}" data-round="${i}">
+      <span class="t-name">${r.name}${sc ? `<span class="t-score">${sc} 分</span>` : ''}</span>
+      <span class="t-topic">${r.topic}</span>
+    </button>`;
+  }).join('');
+}
+
+function render(){
+  const round = QB[store.round];
+  const R = roundState(store.round);
+
+  renderTabs();
+
+  questionsEl.innerHTML = round.questions.map((q, i) => cardHTML(q, i, R, R.submitted)).join('');
+
+  // 导航
+  navEl.innerHTML = `<div class="nav-hint">题号导航 · 点击可快速定位 · 提交后显示判分颜色</div>` +
+    round.questions.map((q, i) => {
+      const st = navStatus(q, i, R);
+      return `<button class="nav-btn ${st}" data-jump="${i}">${i + 1}</button>`;
+    }).join('');
+
+  // 进度与得分
+  const answered = round.questions.filter((q, i) => hasAnswer(q, i, R)).length;
+  progText.textContent = answered + ' / ' + round.questions.length;
+  progBar.style.width = (answered / round.questions.length * 100) + '%';
+  progTip.textContent = R.submitted ? '已提交 · 可对照解析复盘' : '未提交';
+
+  const sc = totalScore(round, R);
+  if(R.submitted){
+    scoreNum.textContent = fmt(sc);
+    scoreNum.className = sc >= 60 ? 'pass' : 'fail';
+  } else {
+    scoreNum.textContent = '—';
+    scoreNum.className = '';
+  }
+
+  // 成绩横幅
+  if(R.submitted){
+    const obj = objectiveScore(round, R);
+    const self = selfScore(round, R);
+    const level = sc >= 85 ? '优秀' : sc >= 70 ? '良好' : sc >= 60 ? '及格' : '需加强';
+    const pending = round.questions.filter((q, i) =>
+      (q.type === 'calc' || q.type === 'essay') && R.self[i] === undefined).length;
+    bannerEl.className = 'banner show';
+    bannerEl.innerHTML = `
+      <div class="banner-top">
+        <div class="banner-score">${fmt(sc)}<small> / 100</small></div>
+        <div class="banner-level">${level}</div>
+      </div>
+      <div class="banner-detail">
+        客观题（选择、判断）得分：<b>${fmt(obj)}</b> 分　·　计算与主观题自评得分：<b>${fmt(self)}</b> 分
+        ${pending ? `<br>还有 <b>${pending}</b> 道计算/主观题未自评，点击题卡中的"自评"按钮可补评。` : ''}
+        <br>绿色题号 = 正确，红色 = 错误，黄色 = 部分正确。点击题号可跳转查看解析。
+      </div>`;
+  } else {
+    bannerEl.className = 'banner';
+    bannerEl.innerHTML = '';
+  }
+
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = R.submitted;
+  submitBtn.textContent = R.submitted ? '已提交本轮' : '提交本轮';
+}
+
+function navStatus(q, i, R){
+  if(!R.submitted){
+    return hasAnswer(q, i, R) ? 'answered' : '';
+  }
+  if(q.type === 'single' || q.type === 'judge'){
+    return gradeObjective(q, R.answers[i]) === q.score ? 'correct' : 'wrong';
+  }
+  if(q.type === 'multi'){
+    const g = gradeObjective(q, R.answers[i]);
+    return g === q.score ? 'correct' : g > 0 ? 'partial' : 'wrong';
+  }
+  const s = R.self[i];
+  if(s === undefined) return 'pending';
+  return s === 1 ? 'correct' : s === 0 ? 'wrong' : 'partial';
+}
+
+/* ---------- 事件 ---------- */
+tabsEl.addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if(!btn) return;
+  store.round = Number(btn.dataset.round);
+  saveStore();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+navEl.addEventListener('click', e => {
+  const btn = e.target.closest('.nav-btn');
+  if(!btn) return;
+  const card = document.getElementById('q' + btn.dataset.jump);
+  if(!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  card.classList.remove('flash');
+  void card.offsetWidth;
+  card.classList.add('flash');
+  setTimeout(() => card.classList.remove('flash'), 1000);
+});
+
+questionsEl.addEventListener('change', e => {
+  const input = e.target;
+  if(input.type !== 'radio' && input.type !== 'checkbox') return;
+  const card = input.closest('.q-card');
+  if(!card) return;
+  const i = Number(card.dataset.idx);
+  const type = card.dataset.type;
+  const R = roundState(store.round);
+
+  if(type === 'single'){
+    R.answers[i] = Number(input.value);
+  } else if(type === 'judge'){
+    R.answers[i] = input.value === 'true';
+  } else if(type === 'multi'){
+    R.answers[i] = Array.from(card.querySelectorAll('input:checked')).map(x => Number(x.value));
+  }
+
+  card.querySelectorAll('.opt').forEach(label => {
+    const inp = label.querySelector('input');
+    label.classList.toggle('chosen', inp.checked);
+  });
+
+  saveStore();
+  updateProgressUI();
+});
+
+questionsEl.addEventListener('input', e => {
+  if(!e.target.classList.contains('wr')) return;
+  const i = Number(e.target.dataset.idx);
+  const R = roundState(store.round);
+  R.answers[i] = e.target.value;
+  saveStore();
+  updateProgressUI();
+});
+
+questionsEl.addEventListener('click', e => {
+  const revealBtn = e.target.closest('.reveal');
+  if(revealBtn){
+    const i = Number(revealBtn.dataset.idx);
+    const R = roundState(store.round);
+    R.reveal[i] = !R.reveal[i];
+    const box = questionsEl.querySelector(`.answer-box[data-answer="${i}"]`);
+    if(box) box.classList.toggle('show', R.reveal[i]);
+    revealBtn.textContent = R.reveal[i] ? '收起参考答案' : '查看参考答案';
+    saveStore();
+    return;
+  }
+
+  const gBtn = e.target.closest('.sg-btn');
+  if(gBtn){
+    const i = Number(gBtn.dataset.idx);
+    const val = Number(gBtn.dataset.grade);
+    const R = roundState(store.round);
+    R.self[i] = (R.self[i] === val) ? undefined : val;
+    if(R.self[i] === undefined) delete R.self[i];
+
+    const row = gBtn.parentElement;
+    row.querySelectorAll('.sg-btn').forEach(b => {
+      b.classList.toggle('active', Number(b.dataset.grade) === R.self[i]);
+    });
+
+    saveStore();
+    render();
+  }
+});
+
+function updateProgressUI(){
+  const round = QB[store.round];
+  const R = roundState(store.round);
+  const answered = round.questions.filter((q, i) => hasAnswer(q, i, R)).length;
+  progText.textContent = answered + ' / ' + round.questions.length;
+  progBar.style.width = (answered / round.questions.length * 100) + '%';
+
+  // 导航状态同步
+  navEl.querySelectorAll('.nav-btn').forEach((btn, i) => {
+    const q = round.questions[i];
+    btn.className = 'nav-btn ' + navStatus(q, i, R);
+  });
+}
+
+document.getElementById('submitBtn').addEventListener('click', () => {
+  const round = QB[store.round];
+  const R = roundState(store.round);
+  if(R.submitted) return;
+
+  const unanswered = round.questions.filter((q, i) => !hasAnswer(q, i, R)).length;
+  if(unanswered > 0){
+    const ok = confirm(`本轮还有 ${unanswered} 题未作答，确定要提交吗？`);
+    if(!ok) return;
+  }
+
+  R.submitted = true;
+  saveStore();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if(!confirm('确定要清空本轮的作答、判分与自评记录吗？')) return;
+  store.rounds[store.round] = { answers:{}, submitted:false, reveal:{}, self:{} };
+  saveStore();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  store.round = (store.round + 1) % QB.length;
+  saveStore();
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ---------- 启动 ---------- */
+if(!Number.isInteger(store.round) || store.round < 0 || store.round >= QB.length){
+  store.round = 0;
+}
+render();
+</script>
+</body>
+</html>
